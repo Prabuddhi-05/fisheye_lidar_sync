@@ -1,44 +1,57 @@
 # Fisheye & LiDAR Data Synchronization in ROS 2
 
-This repository contains a **ROS 2 node** that synchronizes 3 fisheye camera image topics and 1 LiDAR point cloud topic using `ApproximateTimeSynchronizer`.
-
-## **Steps to use this repository**
-
-### **Step 1: Fix fisheye camera timestamps**
-Before running synchronization, ensure that your **fisheye camera images have valid timestamps**. To fix missing timestamps in ROS 2 bag files, follow the steps here:  
-👉 [Fix Fisheye Timestamps](https://github.com/Prabuddhi-05/fix_fisheye)
+This repository provides a **ROS 2 node** that synchronizes three fisheye camera image topics and one LiDAR point cloud topic using `ApproximateTimeSynchronizer`. It also includes a script to verify the accuracy of the synchronization.
 
 ---
 
-### **Step 2: Play the modified bag file**
-Once the timestamps are corrected, play the modified bag file with simulated time enabled:
-```bash
-ros2 bag play /path/to/modified_bag --clock
-```
+## Usage Instructions
 
----Before running synchronization, ensure that your fisheye camera images have valid timestamps
+1. **Fix Fisheye Camera Timestamps**  
+   - Before synchronizing, ensure the **fisheye camera images** have valid timestamps.
+   - If the timestamps are missing or invalid, follow the steps in the [Fix Fisheye Timestamps](https://github.com/Prabuddhi-05/fix_fisheye) repository to correct them.
 
-### **Step 3: Run the synchronization node**
-Start the synchronization node to align the fisheye camera images and LiDAR point clouds:
-```bash
-python3 fisheye_lidar_sync.py
-```
+2. **Play the Modified Bag File**  
+   - Once timestamps are fixed, replay the modified `.db3` bag with simulated time:
+     ```bash
+     ros2 bag play /path/to/modified_bag --clock
+     ```
+
+3. **Run the Synchronization Node**  
+   - In another terminal, launch the node that synchronizes fisheye images and LiDAR:
+     ```bash
+     python3 fisheye_lidar_sync.py
+     ```
+
+4. **Verify the Synchronized Topics**  
+   - Confirm that new synchronized topics are being published:
+     ```bash
+     ros2 topic list | grep synchronized
+     ```
+   - (Optional) Check publishing rates:
+     ```bash
+     ros2 topic hz /synchronized/fisheye_image_SN00012
+     ```
+
+5. **(Optional) Verify Synchronization Accuracy**  
+   - Use the `sync_checker.py` script (if provided) to confirm timestamps match closely:
+     1. Open a new terminal while the modified bag and sync node are running.
+     2. Run:
+        ```bash
+        python3 sync_checker.py
+        ```
+     3. Observe the time-difference logs. Differences under **10 ms** are generally considered good for most sensor-fusion tasks.
 
 ---
 
-### **Step 4: Verify synchronized topics**
-Check if the synchronized topics are being published:
-```bash
-ros2 topic list | grep synchronized
-```
----
+## Troubleshooting
 
-## **Troubleshooting**
-- **No messages received?** Ensure the **QoS settings match** the publisher (`BEST_EFFORT` for sensors).  
-- **Missed synchronizations?** Increase `slop` (e.g., `0.3`) in `ApproximateTimeSynchronizer`.  
-- **Messages dropping?** Increase `queue_size` (e.g., `50`) in `ApproximateTimeSynchronizer`.    
-- **Timestamps still zero?** Re-run the timestamp-fixing script.
+- **No messages received?**  
+  Ensure the **QoS settings** match the camera/LiDAR publishers (often `BEST_EFFORT`).
+- **Missed synchronizations?**  
+  Increase the `slop` parameter (e.g., `0.3`) in `ApproximateTimeSynchronizer`.
+- **Messages dropping?**  
+  Increase the `queue_size` (e.g., `50`) in `ApproximateTimeSynchronizer`.
+- **Timestamps still zero?**  
+  Re-run the fisheye timestamp-fixing script on the bag file.
 
 ---
-
-
