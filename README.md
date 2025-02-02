@@ -5,7 +5,7 @@ This repository contains a **ROS 2 node** that synchronizes 3 fisheye camera ima
 ## **Steps to use this repository**
 
 ### **Step 1: Fix fisheye camera timestamps**
-Before running synchronization, ensure that your **fisheye camera images have valid timestamps**. Use the script to fix missing timestamps in ROS 2 bag files by following the steps here:  
+Before running synchronization, ensure that your **fisheye camera images have valid timestamps**. To fix missing timestamps in ROS 2 bag files, follow the steps here:  
 👉 [Fix Fisheye Timestamps](https://github.com/Prabuddhi-05/fix_fisheye)
 
 ---
