@@ -5,7 +5,7 @@ This repository contains a **ROS 2 node** that synchronizes three fisheye camera
 ## Fixing Fisheye Timestamps (Before Synchronization)
 
 Before running synchronization, ensure that your **fisheye images have valid timestamps**.  
-Follow the **timestamp_fix.py script** here:  
+Follow the **'timestamp_fix.py' script** here:  
 👉 [Fix Fisheye Timestamps](https://github.com/Prabuddhi-05/fix_fisheye)
 
 ---
