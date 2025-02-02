@@ -1,22 +1,71 @@
-# Fisheye Camera & LiDAR Synchronization in ROS 2
+# Fisheye & LiDAR Data Synchronization (ROS 2)
 
 This repository contains a **ROS 2 node** that synchronizes three fisheye camera image topics and one LiDAR point cloud topic using `ApproximateTimeSynchronizer`.
 
-## Fixing Fisheye Timestamps (Before Synchronization)
+## **Steps to Use This Repository**
 
-1. Before running synchronization, ensure that your **fisheye images have valid timestamps**.  
-A **script** to fix missing/invalid timestamps in fisheye camera images in ROS 2 bag files.
-Follow the steps here:  
+### **Step 1: Fix Fisheye Timestamps**
+Before running synchronization, ensure that your **fisheye images have valid timestamps**. Use the script to fix missing or invalid timestamps in ROS 2 bag files by following the steps here:  
 👉 [Fix Fisheye Timestamps](https://github.com/Prabuddhi-05/fix_fisheye)
 
 ---
 
-## Synchronization Node
+### **Step 2: Play the Fixed Bag File**
+Once the timestamps are corrected, play the modified bag file with simulated time enabled:
+```bash
+ros2 bag play /path/to/fixed_bag --clock
+```
 
-### **Overview**
-This ROS 2 node:
-- Subscribes to three fisheye image topics (`/fisheye_image_SN00012`, `/fisheye_image_SN00013`, `/fisheye_image_SN00014`).
-- Subscribes to one LiDAR point cloud topic (`/front_lidar/points`).
-- Uses `ApproximateTimeSynchronizer` to synchronize them.
-- Publishes the synchronized messages on `/synchronized/...` topics.
+---
+
+### **Step 3: Run the Synchronization Node**
+Start the synchronization node to align the fisheye images and LiDAR point clouds:
+```bash
+python3 fisheye_lidar_sync.py
+```
+
+---
+
+### **Step 4: Verify Synchronized Topics**
+Check if the synchronized topics are being published:
+```bash
+ros2 topic list | grep synchronized
+```
+To check the frequency of a topic:
+```bash
+ros2 topic hz /synchronized/fisheye_image_SN00012
+```
+
+---
+
+### **Step 5: Visualize Data**
+To visualize the synchronized fisheye images:
+```bash
+rqt_image_view
+```
+To visualize LiDAR point clouds:
+```bash
+rviz2
+```
+Ensure that all topics are correctly aligned in time.
+
+---
+
+## **Troubleshooting**
+- **No messages received?** Ensure the **QoS settings match** the publisher (`BEST_EFFORT` for cameras).  
+- **Missed synchronizations?** Increase `slop` (e.g., `0.3`) in `ApproximateTimeSynchronizer`.  
+- **Messages dropping?** Increase `queue_size` (e.g., `50`).  
+- **Timestamps still zero?** Re-run the timestamp-fixing script.
+
+---
+
+## **License**
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## **Author & Contributions**
+- **Author**: [Prabuddhi-05](https://github.com/Prabuddhi-05)
+- Contributions are welcome! Please open an issue or a pull request if you would like to improve the project.
+
 
