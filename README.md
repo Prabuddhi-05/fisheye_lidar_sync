@@ -16,7 +16,7 @@ Once the timestamps are corrected, play the modified bag file with simulated tim
 ros2 bag play /path/to/modified_bag --clock
 ```
 
----
+---Before running synchronization, ensure that your fisheye camera images have valid timestamps
 
 ### **Step 3: Run the synchronization node**
 Start the synchronization node to align the fisheye camera images and LiDAR point clouds:
@@ -31,11 +31,6 @@ Check if the synchronized topics are being published:
 ```bash
 ros2 topic list | grep synchronized
 ```
-To check the frequency of a topic:
-```bash
-ros2 topic hz /synchronized/fisheye_image_SN00012
-```
-
 ---
 
 ## **Troubleshooting**
