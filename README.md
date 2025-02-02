@@ -37,7 +37,7 @@ This repository provides a **ROS 2 node** that synchronizes three fisheye camera
      3. Observe the time-difference logs.
      
      **NOTE**
-     All of the results observed so far show differences under 10 ms, and we will continue to refine our setup to potentially lower these offsets even further.
+    - All of the results observed so far show differences under 10 ms, and we will continue to refine our setup to potentially lower these differences even further.
 
 ---
 
