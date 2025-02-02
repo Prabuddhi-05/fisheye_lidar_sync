@@ -31,7 +31,7 @@ class FisheyeLidarSync(Node):
         self.sync = ApproximateTimeSynchronizer(
             [self.sub_cam1, self.sub_cam2, self.sub_cam3, self.sub_lidar],
             queue_size=30, # The maximum number of messages per subscriber it keeps in a buffer while trying to match timestamps
-            slop=0.25  # Allows messages with timestamps within this time interval of each other to be considered synchronized
+            slop=0.2  # Allows messages with timestamps within this time interval of each other to be considered synchronized
         )
         self.sync.registerCallback(self.sync_callback) # Called whenever the synchronizer finds a matching set of messages
 
