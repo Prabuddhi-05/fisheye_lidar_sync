@@ -11,7 +11,7 @@ This repository provides a **ROS 2 node** that synchronizes three fisheye camera
    - If the timestamps are missing, follow the steps in the [Fix Fisheye Timestamps](https://github.com/Prabuddhi-05/fix_fisheye) repository to correct them.
 
 2. **Play the modified bag file**  
-   - Once timestamps are fixed, replay the modified ROS 2 bag bag with simulated time:
+   - Once timestamps are fixed, replay the modified ROS 2 bag with simulated time:
      ```bash
      ros2 bag play /path/to/modified_bag --clock
      ```
@@ -46,7 +46,7 @@ This repository provides a **ROS 2 node** that synchronizes three fisheye camera
 - **No messages received?**  
   Ensure the **QoS settings** match the camera/LiDAR publishers (often `BEST_EFFORT`).
 - **Missed synchronizations?**  
-  Increase the `slop` parameter (e.g., `0.3`) in `ApproximateTimeSynchronizer`.
+  Increase the `slop` parameter (e.g., `0.25`) in `ApproximateTimeSynchronizer`.
 - **Messages dropping?**  
   Increase the `queue_size` (e.g., `50`) in `ApproximateTimeSynchronizer`.
 - **Timestamps still zero?**  
